@@ -12,11 +12,14 @@ export default function PostList({ refreshTrigger }: PostListProps) {
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [userEmail, setUserEmail] = useState<string>('')
 
   const fetchPosts = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('ユーザーが見つかりません')
+
+      setUserEmail(user.email || 'Unknown')
 
       const { data, error } = await supabase
         .from('posts')
@@ -91,8 +94,9 @@ export default function PostList({ refreshTrigger }: PostListProps) {
             </button>
           </div>
           <p className="text-gray-700 mb-4 whitespace-pre-wrap">{post.content}</p>
-          <div className="text-sm text-gray-500">
-            {new Date(post.created_at).toLocaleString('ja-JP')}
+          <div className="text-sm text-gray-500 space-y-1">
+            <div>投稿者: {userEmail}</div>
+            <div>{new Date(post.created_at).toLocaleString('ja-JP')}</div>
           </div>
         </div>
       ))}
