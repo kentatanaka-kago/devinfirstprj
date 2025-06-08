@@ -38,8 +38,8 @@ export default function PostForm({ onPostCreated, onCancel }: PostFormProps) {
       setTitle('')
       setContent('')
       onPostCreated()
-    } catch (error: any) {
-      setError(error.message)
+    } catch (error: unknown) {
+      setError(error instanceof Error ? error.message : 'エラーが発生しました')
     } finally {
       setLoading(false)
     }

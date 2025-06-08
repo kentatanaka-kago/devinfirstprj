@@ -5,9 +5,10 @@ import { supabase } from '@/lib/supabase'
 import AuthForm from '@/components/AuthForm'
 import PostForm from '@/components/PostForm'
 import PostList from '@/components/PostList'
+import type { User } from '@supabase/supabase-js'
 
 export default function Home() {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [showPostForm, setShowPostForm] = useState(false)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
@@ -59,7 +60,7 @@ export default function Home() {
           <div className="flex justify-between items-center py-6">
             <h1 className="text-2xl font-bold text-gray-900">投稿アプリ</h1>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">{user.email}</span>
+              <span className="text-sm text-gray-600">{user.email || 'ユーザー'}</span>
               <button
                 onClick={handleSignOut}
                 className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
